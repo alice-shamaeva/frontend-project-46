@@ -1,7 +1,11 @@
 {
   "name": "frontend-project-46",
   "version": "1.0.0",
+  "description": "hexlet project #2",
+  "main": "src/index.js",
+  "type": "module",
   "dependencies": {
+    "@jest/globals": "^29.7.0",
     "commander": "^12.0.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21"
