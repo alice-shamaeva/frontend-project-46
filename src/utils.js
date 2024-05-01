@@ -13,32 +13,32 @@ const getExtension = (fileName) => {
   return result.at(-1);
 };
 
-const getDifferentObject = (obj1, obj2) => {
-  return _.sortBy(_.union(_.keys(obj1), _.keys(obj2))).map((key) => {
-    const oldValue = obj1[key];
-    const newValue = obj2[key];
-    if (!_.has(obj2, key)) {
+const getDifferentObject = (object1, object2) => {
+  return _.sortBy(_.union(_.keys(object1), _.keys(object2))).map((key) => {
+    const oldValue = object1[key];
+    const newValue = object2[key];
+    if (!_.has(object2, key)) {
       return {
         action: 'deleted',
         key,
         oldValue,
       };
     }
-    if (!_.has(obj1, key)) {
+    if (!_.has(object1, key)) {
       return {
         action: 'added',
         key,
         newValue,
       };
     }
-    if (_.isObject(oldValue) && _.isObject(newValue)) {
+    if (_.isPlainObject(oldValue) && _.isPlainObject(newValue)) {
       return {
         action: 'nested',
         key,
         children: getDifferentObject(oldValue, newValue),
       };
     }
-    if (oldValue !== newValue) {
+    if (!_.isEqual(oldValue, newValue)) {
       return {
         action: 'changed',
         key,

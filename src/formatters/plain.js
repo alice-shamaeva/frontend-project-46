@@ -1,4 +1,4 @@
-const getString = (value) => {
+const stringify = (value) => {
   switch (typeof value) {
     case 'object':
       return value == null ? value : '[complex value]';
@@ -9,29 +9,23 @@ const getString = (value) => {
   }
 };
 
-const data = {
-  added: 'was added with value:',
-  deleted: 'was removed',
-  changed: 'was updated. From',
-};
-
 const getPlain = (tree) => {
   const iter = (object, path) => {
     const result = object.map((key) => {
       const fullKey = `${path}${key.key}`;
       if (key.action === 'deleted') {
-        return `Property '${fullKey}' ${data.deleted}`;
+        return `Property '${fullKey}' was removed`;
       }
       if (key.action === 'added') {
-        return `Property '${fullKey}' ${data.added} ${getString(key.newValue)}`;
+        return `Property '${fullKey}' was added with value: ${stringify(key.newValue)}`;
       }
       if (key.action === 'nested') {
         return iter(key.children, `${fullKey}.`);
       }
       if (key.action === 'changed') {
-        return `Property '${fullKey}' ${data.changed} ${getString(key.oldValue)} to ${getString(key.newValue)}`;
+        return `Property '${fullKey}' was updated. From ${stringify(key.oldValue)} to ${stringify(key.newValue)}`;
       }
-      return null;
+      throw new Error(`Unknown order state: ${key.action}!`);
     });
     return result.filter((item) => item !== null).join('\n');
   };
