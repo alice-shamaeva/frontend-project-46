@@ -12,5 +12,10 @@
   },
   "scripts": {
     "test": "npx jest"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.2.0",
+    "eslint": "^9.2.0",
+    "globals": "^15.1.0"
   }
 }
