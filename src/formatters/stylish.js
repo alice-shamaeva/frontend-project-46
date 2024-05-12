@@ -27,15 +27,17 @@ export default function getStylish(tree) {
     const result = object.map((key) => {
       switch (key.action) {
         case 'deleted':
-          return ` ${getSpace(depth, '-')} ${key.key}: ${stringify(key.oldValue, depth)}`;
+          return ` ${getSpace(depth, '-')} ${key.key}: ${stringify(key.oldValue, depth)}`.trimEnd();
         case 'added':
-          return ` ${getSpace(depth, '+')} ${key.key}: ${stringify(key.newValue, depth)}`;
+          return ` ${getSpace(depth, '+')} ${key.key}: ${stringify(key.newValue, depth)}`.trimEnd();
         case 'nested':
-          return ` ${getSpace(depth, ' ')} ${key.key}: ${iter(key.children, depth + 1)}`;
+          return ` ${getSpace(depth, ' ')} ${key.key}: ${iter(key.children, depth + 1)}`.trimEnd();
         case 'changed':
-          return [` ${getSpace(depth, '-')} ${key.key}: ${stringify(key.oldValue, depth)}\n ${getSpace(depth, '+')} ${key.key}: ${stringify(key.newValue, depth)}`];
+          const deleted = ` ${getSpace(depth, '-')} ${key.key}: ${stringify(key.oldValue, depth)}`.trimEnd();
+          const added = ` ${getSpace(depth, '+')} ${key.key}: ${stringify(key.newValue, depth)}`.trimEnd();
+          return `${deleted}\n${added}`;
         default:
-          return ` ${getSpace(depth, ' ')} ${key.key}: ${stringify(key.oldValue, depth)}`;
+          return ` ${getSpace(depth, ' ')} ${key.key}: ${stringify(key.oldValue, depth)}`.trimEnd();
       }
     });
     return ['{', ...result, `${getSpace(depth)}}`].join('\n');

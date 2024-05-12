@@ -1,30 +1,36 @@
-import _ from 'lodash';
-
-const stringify = (value) => (_.isObject(value) ? '[complex value]' : value);
+const stringify = (value) => {
+  if (value instanceof Object) {
+    return '[complex value]';
+  }
+  if (value === false || value === true || value === null) {
+    return `${value}`
+  }
+  return `'${value}'`;
+};
 
 const templates = {
-  deleted: ({ path }) => `Property '${path}' was deleted`,
+  deleted: ({ path }) => `Property '${path}' was removed`,
   added: ({ path, value }) => (
-      `Property '${path}' was added with value: ${stringify(value)}`
+      `Property '${path}' was added with value: ${stringify(value.newValue)}`
   ),
-  changed: ({ path, deletedValue, addedValue }) => (
-      `Property ${path} was changed from ${stringify(deletedValue)} to ${stringify(addedValue)}`
+  changed: ({ path, value }) => (
+      `Property '${path}' was updated. From ${stringify(value.oldValue)} to ${stringify(value.newValue)}`
   ),
-  nested: ({ path, children, formatter }) => (
-      formatter(children, path)
+  nested: ({ path, value, formatter }) => (
+      formatter(value.children, path)
   ),
   unchanged: () => null,
 };
 
-
-const getPlain = (ast, path = '') => ast.map(({ key, type, ...node }) => {
+const getPlain = (ast, path = '') => ast.map(({ key, action, ...node }) => {
   const newPath = path ? `${path}.${key}` : `${key}`;
   const options = {
     path: newPath,
-    ...node,
+    value: node,
     formatter: getPlain,
   };
-  return templates[type](options);
+
+  return templates[action](options);
 }).filter(Boolean).join('\n');
 
 
