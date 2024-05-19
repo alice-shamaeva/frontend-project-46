@@ -29,15 +29,15 @@ export default function getStylish(tree) {
       const addedValue = ` ${getSpace(depth, '+')} ${key.key}: ${stringify(key.newValue, depth)}`.trimEnd();
       switch (key.action) {
         case 'deleted':
-          return ` ${getSpace(depth, '-')} ${key.key}: ${stringify(key.oldValue, depth)}`.trimEnd();
+          return ` ${getSpace(depth, '-')} ${key.key}: ${stringify(key.oldValue, depth)}`;
         case 'added':
-          return ` ${getSpace(depth, '+')} ${key.key}: ${stringify(key.newValue, depth)}`.trimEnd();
+          return ` ${getSpace(depth, '+')} ${key.key}: ${stringify(key.newValue, depth)}`;
         case 'nested':
-          return ` ${getSpace(depth, ' ')} ${key.key}: ${iter(key.children, depth + 1)}`.trimEnd();
+          return ` ${getSpace(depth, ' ')} ${key.key}: ${iter(key.children, depth + 1)}`;
         case 'changed':
           return `${deletedValue}\n${addedValue}`;
         default:
-          return ` ${getSpace(depth, ' ')} ${key.key}: ${stringify(key.oldValue, depth)}`.trimEnd();
+          return ` ${getSpace(depth, ' ')} ${key.key}: ${stringify(key.oldValue, depth)}`;
       }
     });
     return ['{', ...result, `${getSpace(depth)}}`].join('\n');
