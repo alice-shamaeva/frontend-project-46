@@ -2,7 +2,7 @@ const stringify = (value) => {
   if (value instanceof Object) {
     return '[complex value]';
   }
-  if (value === false || value === true || value === null) {
+  if (value === false || value === true || value === null || value.isNumber) {
     return `${value}`
   }
   return `'${value}'`;
