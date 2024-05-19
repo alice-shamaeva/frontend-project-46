@@ -25,8 +25,8 @@ const stringify = (value, level) => {
 export default function getStylish(tree) {
   const iter = (object, depth) => {
     const result = object.map((key) => {
-      const deletedValue = ` ${getSpace(depth, '-')} ${key.key}: ${stringify(key.oldValue, depth)}`.trimEnd();
-      const addedValue = ` ${getSpace(depth, '+')} ${key.key}: ${stringify(key.newValue, depth)}`.trimEnd();
+      const deletedValue = ` ${getSpace(depth, '-')} ${key.key}: ${stringify(key.oldValue, depth)}`;
+      const addedValue = ` ${getSpace(depth, '+')} ${key.key}: ${stringify(key.newValue, depth)}`;
       switch (key.action) {
         case 'deleted':
           return ` ${getSpace(depth, '-')} ${key.key}: ${stringify(key.oldValue, depth)}`;
