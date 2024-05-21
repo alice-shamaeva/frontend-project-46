@@ -2,17 +2,12 @@
 import program from 'commander';
 import genDiff from 'src/index.js';
 
-export default () => {
-    program
-        .description('Compares two configuration files and shows a difference.')
-        .helpOption('-h, --help', 'output usage information')
-        .version('0.0.1', '-V, --version', 'output the version number')
-        .option('-f, --format [type]', 'output format')
-        .arguments('<firstConfig> <secondConfig>')
-        .action((path1, path2) => {
-            const result = genDiff(path1, path2, program.format);
-            console.log(result);
-        });
-    
-    program.parse(process.argv);
-}
+program
+    .version('0.0.1')
+    .helpOption('-h, --help', 'output usage information')
+    .description('Compares two configuration files and shows a difference')
+    .arguments('<firstConfig> <secondConfig>')
+    .option('-f, --format [type]', 'output format: json, plain, tree', 'tree')
+    .action((firstConfig, secondConfig) => (
+        console.log(genDiff(firstConfig, secondConfig, program.format))))
+    .parse(process.argv);
