@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const stringify = (value) => {
   if (value instanceof Object) {
     return '[complex value]';
@@ -8,29 +10,23 @@ const stringify = (value) => {
   return `'${value}'`;
 };
 
-const templates = {
-  deleted: ({ path }) => `Property '${path}' was removed`,
-  added: ({ path, value }) => (
-    `Property '${path}' was added with value: ${stringify(value.newValue)}`
-  ),
-  changed: ({ path, value }) => (
-    `Property '${path}' was updated. From ${stringify(value.oldValue)} to ${stringify(value.newValue)}`
-  ),
-  nested: ({ path, value, formatter }) => (
-    formatter(value.children, path)
-  ),
-  unchanged: () => null,
-};
+const getPlainFormat = (value, parent = '') => {
+  switch(value.action) {
+    case 'added':
+      return `Property '${parent}${value.key}' was added with value: ${stringify(value.newValue)}`;
+    case 'deleted':
+      return `Property '${parent}${value.key}' was removed`;
+    case 'unchanged':
+      return null;
+    case 'changed':
+      return `Property '${parent}${value.key}' was updated. From ${stringify(value.oldValue)} to ${stringify(value.newValue)}`;
+    case 'nested':
+      return value.children.map((val) => getPlainFormat(val, `${parent + value.key}.`))
+          .filter((item) => item !== null).join('\n');
+    default:
+      throw new Error(`Unknown type: ${value.action}`);
+  }
+  
+}
 
-const getPlain = (ast, path = '') => ast.map(({ key, action, ...node }) => {
-  const newPath = path ? `${path}.${key}` : `${key}`;
-  const options = {
-    path: newPath,
-    value: node,
-    formatter: getPlain,
-  };
-
-  return templates[action](options);
-}).filter(Boolean).join('\n');
-
-export default getPlain;
+export default (plain) => `${plain.map((element) => getPlainFormat(element)).join('\n')}`;
