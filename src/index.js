@@ -1,5 +1,5 @@
 import makeFormat from './formatters/index.js';
-import { getDifferentObject, getExtension, readFile } from './utils';
+import { getDifferentObject, getExtension, readFile } from './utils.js';
 import parse from './parsers';
 
 const genDiff = (filepath1, filepath2, format = 'stylish') => {

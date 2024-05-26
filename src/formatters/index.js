@@ -1,5 +1,5 @@
-import getStylish from './stylish';
-import getPlain from './plain';
+import getStylish from './stylish.js';
+import getPlain from './plain.js';
 
 export default function makeFormat(tree, formatName) {
   switch (formatName) {
