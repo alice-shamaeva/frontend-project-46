@@ -22,7 +22,7 @@ const templates = {
   unchanged: () => null,
 };
 
-const getPlain = (ast, path = '') => ast.map(({ key, action, ...node }) => {
+const getPlain = (ast, path = '') => ast.map(({ key, action, node }) => {
   const newPath = path ? `${path}.${key}` : `${key}`;
   const options = {
     path: newPath,

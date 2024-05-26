@@ -13,8 +13,8 @@ const getExtension = (fileName) => {
   return result.at(-1);
 };
 
-const getDifferentObject = (object1, object2) => (
-  _.sortBy(_.union(_.keys(object1), _.keys(object2))).map((key) => {
+const getDifferentObject = (object1, object2) => {
+  return _.sortBy(_.union(_.keys(object1), _.keys(object2))).map((key) => {
     const oldValue = object1[key];
     const newValue = object2[key];
     if (!_.has(object2, key)) {
@@ -51,7 +51,7 @@ const getDifferentObject = (object1, object2) => (
       key,
       oldValue,
     };
-  })
-);
+  });
+};
 
 export { readFile, getExtension, getDifferentObject };
