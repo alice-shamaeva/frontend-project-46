@@ -3,7 +3,7 @@ const stringify = (value) => {
     return '[complex value]';
   }
   if (value === false || value === true || value === null || value === 0) {
-    return `${value}`
+    return `${value}`;
   }
   return `'${value}'`;
 };
@@ -11,13 +11,13 @@ const stringify = (value) => {
 const templates = {
   deleted: ({ path }) => `Property '${path}' was removed`,
   added: ({ path, value }) => (
-      `Property '${path}' was added with value: ${stringify(value.newValue)}`
+    `Property '${path}' was added with value: ${stringify(value.newValue)}`
   ),
   changed: ({ path, value }) => (
-      `Property '${path}' was updated. From ${stringify(value.oldValue)} to ${stringify(value.newValue)}`
+    `Property '${path}' was updated. From ${stringify(value.oldValue)} to ${stringify(value.newValue)}`
   ),
   nested: ({ path, value, formatter }) => (
-      formatter(value.children, path)
+    formatter(value.children, path)
   ),
   unchanged: () => null,
 };
@@ -32,6 +32,5 @@ const getPlain = (ast, path = '') => ast.map(({ key, action, ...node }) => {
 
   return templates[action](options);
 }).filter(Boolean).join('\n');
-
 
 export default getPlain;
