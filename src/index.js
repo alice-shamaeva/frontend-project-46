@@ -1,4 +1,4 @@
-import makeFormat from './formatters/index';
+import makeFormat from './formatters/index.js';
 import { getDifferentObject, getExtension, readFile } from './utils';
 import parse from './parsers';
 
