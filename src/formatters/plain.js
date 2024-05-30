@@ -9,7 +9,7 @@ const stringify = (value) => {
 };
 
 const getPlainFormat = (value, parent = '') => {
-  switch(value.action) {
+  switch (value.action) {
     case 'added':
       return `Property '${parent}${value.key}' was added with value: ${stringify(value.newValue)}`;
     case 'deleted':
@@ -20,11 +20,10 @@ const getPlainFormat = (value, parent = '') => {
       return `Property '${parent}${value.key}' was updated. From ${stringify(value.oldValue)} to ${stringify(value.newValue)}`;
     case 'nested':
       return value.children.map((val) => getPlainFormat(val, `${parent + value.key}.`))
-          .filter((item) => item !== null).join('\n');
+        .filter((item) => item !== null).join('\n');
     default:
       throw new Error(`Unknown type: ${value.action}`);
   }
-  
-}
+};
 
 export default (plain) => `${plain.map((element) => getPlainFormat(element)).join('\n')}`.trimEnd();
