@@ -34,7 +34,6 @@ const getDifferentObject = (object1, object2) => (
         newValue,
       };
     }
-    
     const oldValue = object1[key];
     const newValue = object2[key];
     if (_.isPlainObject(oldValue) && _.isPlainObject(newValue)) {
